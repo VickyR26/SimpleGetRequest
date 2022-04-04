@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         queue = Volley.newRequestQueue(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+
+        setContentView(binding.root)
 
         binding.btnUpdatePokemon.setOnClickListener{
             Log.i("JSONRESPONSE", "Pokemones")
@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         val jsonRequest = JsonObjectRequest(url, Response.Listener<JSONObject>{response ->
             Log.i("JSONRESPONSE", response.getJSONArray("results").toString())
+            //val Array = response.getJSONArray("results")
+            binding.rvPokemonesEntries.adapter = MainAdapter(response.getJSONArray("results"))
         },
         Response.ErrorListener { error ->
             Log.w("JSONRESPONSE", error.message as String)
